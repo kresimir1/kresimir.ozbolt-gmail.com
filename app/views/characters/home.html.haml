@@ -1,0 +1,16 @@
+
+%body
+  .cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column
+    %main.inner.cover{:role => "main"}
+      %h1.cover-heading
+
+      %p.lead
+        This web application was created using
+        =link_to('Marvel public API', 'https://developer.marvel.com/')
+        ="."
+        All data is provided by Marvel. Click on the Superman to start game.
+
+
+  .start
+    = link_to start_game_characters_path do
+      \#{image_tag("superman-free-vector-graphic-on-pixabay-superman-vector-png-376_720.png")}

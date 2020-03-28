@@ -1,0 +1,16 @@
+- content_for :title do
+  About
+
+.cover-container
+  .jumbotron
+    %h1.display-4 About the Website
+    %p.lead
+      This web application was created using
+      \#{link_to('Marvel public API', ' https://developer.marvel.com/')}
+      All data is provided by Marvel.
+
+
+
+  .start
+    = link_to start_game_characters_path do
+      \#{image_tag("superman-free-vector-graphic-on-pixabay-superman-vector-png-376_720.png")}

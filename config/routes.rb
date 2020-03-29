@@ -3,11 +3,11 @@ Rails.application.routes.draw do
 
   # get '/start_game', to: 'start_game'
 
-  root :to => "characters#start_game"
+  root "characters#home"
   resources :characters do
     collection do
       get :start_game
-      get :home
+      get :home, to: ''
       post :combat
     end
 

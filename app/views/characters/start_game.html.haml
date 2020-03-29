@@ -17,13 +17,12 @@
 
           %a.card-link{:href => "https://www.marvel.com/characters", :target => "_blank"} See a list of Marvel characters
 
-
     = form_tag '/characters/combat' do
       = label_tag :player_1
-      = text_field_tag :name_1, "", class: 'form-control', placeholder: "Enter your superhero name here...."
+      = text_field_tag :name_1, "", class: 'form-control', value: params[:name_1], placeholder: "Enter your superhero name here...."
       %br/
       = label_tag :player_2
-      = text_field_tag :name_2, "", class: 'form-control', placeholder: "Enter your villain name here...."
+      = text_field_tag :name_2, "", class: 'form-control', value: params[:name_2], placeholder: "Enter your villain name here...."
       %br/
       %label{:for => :seed_number} Select the SEED number:
       = select_tag :seed_number, options_for_select((1..9)), class: 'form-control'

@@ -1,13 +1,14 @@
 class CharactersController < ApplicationController
-
+  include ApplicationHelper
 
 
   def home
-
+    #home page
   end
 
   def start_game
-
+    #game rules
+    #form to input game params
   end
 
 
@@ -15,8 +16,10 @@ class CharactersController < ApplicationController
   def combat
     if !validate_params
       flash[:alert] = "Please make sure you enter both names and select a SEED number."
-      redirect_back fallback_location: root_path
+      @params = params
+      redirect_to action: "start_game", name_1: params[:name_1], name_2: params[:name_2]#make sure we keep the params so the user doesn't have to re-enter
     else
+      seed_number = params[:seed_number].to_i
       api_response_1 = get_character(params[:name_1])
       api_response_2 = get_character(params[:name_2])
       #we want to validate to make sure we got both responses and it was succesfull
@@ -24,11 +27,43 @@ class CharactersController < ApplicationController
         flash[:alert] = [api_response_1, api_response_2].select{|r| r.is_a?(String)}.first
         redirect_back fallback_location: root_path
       else
+        #now we start building our characters for real
+        begin
+          data_1 = api_response_1["data"]["results"][0]
+          character_1 = Character.new(name: data_1["name"], description: data_1["description"], image_url: (data_1['thumbnail']['path'] + '.jpg'))
 
+          data_2 = api_response_2["data"]["results"][0]
+          character_2 = Character.new(name: data_2["name"], description: data_2["description"], image_url: (data_2['thumbnail']['path'] + '.jpg'))
+          if !character_1.save || !character_2.save#this should only happen if we get a succesfull response but there is no description data for existing character
+            issue = [character_1, character_2].select{|c| c.try(:errors).try(:any?)}.first
+            message = issue.errors.full_messages.first
+            flash[:alert] = "#{issue.try(:name)}: #{message}"
+            redirect_to action: "start_game", name_1: params[:name_1], name_2: params[:name_2]
+          else
+            results = find_winner(character_1, character_2, seed_number)
+            redirect_to action: "results", name_1: params[:name_1], name_2: params[:name_2], winner: results, seed: seed_number #sending data to results
+
+          end
+        rescue
+          flash[:alert] = "Issues with processing the request."
+          redirect_back fallback_location: root_path
+        end
       end
     end
   end
 
+  def results #not proud of this one but in the lack of time I will take a working solution
+    @seed_number = params[:seed].to_i
+    api_response_1 = get_character(params[:name_1])
+    data_1 = api_response_1["data"]["results"][0]
+    @character_1 = Character.new(name: data_1["name"], description: data_1["description"], image_url: (data_1['thumbnail']['path'] + '.jpg'), url: data_1["urls"][0]["url"])
+
+    api_response_2 = get_character(params[:name_2])
+    data_2 = api_response_2["data"]["results"][0]
+    @character_2 = Character.new(name: data_2["name"], description: data_2["description"], image_url: (data_2['thumbnail']['path'] + '.jpg'), url: data_2["urls"][0]["url"])
+
+    @title = build_title(params["winner"])
+  end
 
 
   private
@@ -81,5 +116,23 @@ class CharactersController < ApplicationController
     end
   end
 
-
+  def find_winner(character_1, character_2, seed_number)
+    word_1 = character_1.word(seed_number)
+    word_2 = character_2.word(seed_number)
+    words = [word_1, word_2]
+    magic_words = Character::MAGIC_WORDS
+    #we are defining the winners
+    if words.all?{|w| magic_words.include?(w)} || (words.none?{|w| magic_words.include?(w)} && (word_1.size == word_2.size))
+      #draw if both have magic words or none have magic words and the word size is the same
+      [character_1.name, character_2.name]
+    else
+      if [word_1, word_2].select{|w| magic_words.include?(w)}.any?
+        #automatically Win if just one magic word
+        winner = words.select{|w| magic_words.include?(w)}
+      else#otherwise order by size and pick the winner
+        winner = words.sort_by {|x| x.length}.last
+      end
+      (words.index(winner) == 0) ? character_1.name : character_2.name
+    end
+  end
 end

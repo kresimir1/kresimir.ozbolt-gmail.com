@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get :start_game
       get :home, to: ''
       post :combat
+      get :results
     end
 
   end

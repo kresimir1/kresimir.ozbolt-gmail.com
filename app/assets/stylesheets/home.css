@@ -129,3 +129,7 @@ body {
   background-color: rgb(206, 17, 17);/* This is for ie8 and below */
   background-color: rgba(206, 17, 17, 0.8);
 }
+
+.card{
+  color: rgb(13, 12, 12);
+}

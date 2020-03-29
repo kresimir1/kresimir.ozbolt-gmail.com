@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     collection do
       get :start_game
       get :home
+      post :combat
     end
 
   end

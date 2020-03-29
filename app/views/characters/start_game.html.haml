@@ -3,14 +3,44 @@
 
 .cover-container
   .jumbotron
-    %h1.display-4 About the Website
+    %h1.display-4 Start Game
     %p.lead
-      This web application was created using
-      \#{link_to('Marvel public API', ' https://developer.marvel.com/')}
-      All data is provided by Marvel.
+    %button.btn.btn-link{:type => "button", :onclick => "myFunction()"} Game Rules
+    #game_rules{style:"display:none;"}
+      .card{:style => "width: 35rem;"}
+        .card-body
+          %h5.card-title
+          %h6.card-subtitle.mb-2.text-muted
+          %p.card-text
+            You must provide 2 Marvel character names to do battle in the arena and a SEED number between 1-9.
+            Once you submit, the system will retrieve the bio (description) for each character.
+
+          %a.card-link{:href => "https://www.marvel.com/characters", :target => "_blank"} See a list of Marvel characters
+
+
+    = form_tag '/characters/combat' do
+      = label_tag :player_1
+      = text_field_tag :name_1, "", class: 'form-control', placeholder: "Enter your superhero name here...."
+      %br/
+      = label_tag :player_2
+      = text_field_tag :name_2, "", class: 'form-control', placeholder: "Enter your villain name here...."
+      %br/
+      %label{:for => :seed_number} Select the SEED number:
+      = select_tag :seed_number, options_for_select((1..9)), class: 'form-control'
+
+      %br/
+      =button_tag 'Submit' , class: 'btn btn-primary btn-lg btn-block' , type: :submit
 
 
 
-  .start
-    = link_to start_game_characters_path do
-      \#{image_tag("superman-free-vector-graphic-on-pixabay-superman-vector-png-376_720.png")}
+
+
+:javascript
+  function myFunction() {
+    var x = document.getElementById("game_rules");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+    }

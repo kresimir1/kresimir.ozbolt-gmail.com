@@ -12,7 +12,8 @@ class CharactersController < ApplicationController
 
 
 
-
+  def combat
+  end
 
 
 

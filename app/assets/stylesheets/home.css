@@ -133,3 +133,7 @@ body {
 .card{
   color: rgb(13, 12, 12);
 }
+
+.nav-masthead{
+  font-size: 120%
+}

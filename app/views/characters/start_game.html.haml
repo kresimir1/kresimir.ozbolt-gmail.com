@@ -13,7 +13,8 @@
           %h6.card-subtitle.mb-2.text-muted
           %p.card-text
             You must provide 2 Marvel character names to do battle in the arena and a SEED number between 1-9.
-            Once you submit, the system will retrieve the bio (description) for each character.
+            Once you submit, the system will retrieve the bio (description) for each character. In each description it will look for the word at the position of the SEED number.
+            The winner of the battle is the character whose WORD has the most characters EXCEPT if either character's WORD is a MAGIC WORD “Gamma” or “Radioactive”, in which case they automatically Win.
 
           %a.card-link{:href => "https://www.marvel.com/characters", :target => "_blank"} See a list of Marvel characters
 

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       get :home, to: ''
       post :combat
       get :results
+      get :about
     end
-
   end
 end

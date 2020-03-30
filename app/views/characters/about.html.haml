@@ -1,0 +1,51 @@
+- content_for :title do
+  About
+
+.cover-container
+  .jumbotron
+    %h1.display-4 Marvel Combat Arena
+    .card-deck.mb-3.text-center
+      .card.mb-4.shadow-sm
+        .card-header
+          About
+
+          %h4.my-0.font-weight-normal
+        .card-body
+          %h1.card-title.pricing-card-title
+          %ul.list-unstyled.mt-3.mb-4
+            %li
+              This web application was created using
+              =link_to 'Marvel public API', 'https://developer.marvel.com/', target: "_blank"
+              ="."
+              All data is provided by Marvel. This application was made for my personal, noncommercial use and is intended for informational and entertainment purposes only.
+            %br
+            %li
+
+
+    %p.lead
+    %button.btn.btn-link{:type => "button", :onclick => "myFunction()"} Show Credits
+    #credits{style:"display:none;"}
+      .card{:style => "width: 35rem;"}
+        .card-body
+          %h1.card-title.pricing-card-title
+          %ol.list-unstyled.mt-3.mb-4
+            %li
+
+              =link_to 'Spiderman vector', 'https://png.is/f/miles-morales-superman-vs-the-amazing-spider-man-spider-woman-spider-man-2099-spiderman/5257967607742464-201902131555.html', target: "_blank"
+            %li
+              =link_to 'City photo - Matthew Henry', 'https://unsplash.com/@matthewhenry?utm_medium=referral&utm_campaign=photographer-credit&utm_content=creditBadge', target: "_blank"
+
+
+
+
+
+
+:javascript
+  function myFunction() {
+    var x = document.getElementById("credits");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+    }

@@ -65,6 +65,10 @@ class CharactersController < ApplicationController
     @title = build_title(params["winner"])
   end
 
+  def about
+    #basic info
+  end
+
 
   private
 

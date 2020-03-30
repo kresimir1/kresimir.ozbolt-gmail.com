@@ -5,12 +5,12 @@
       %h1.cover-heading
 
       %p.lead
-        This web application was created using
-        =link_to 'Marvel public API', 'https://developer.marvel.com/', target: "_blank"
-        ="."
-        All data is provided by Marvel. Click on the Superman to start game.
+
 
 
     .start
+      -4.times do
+        %br
+    
       = link_to start_game_characters_path do
         \#{image_tag("spiderman.png",  height: '110%', width: '110%')}
